@@ -4,9 +4,7 @@ function App() {
   return (
     <div className="App">
       <header className="App-header">
-        <p>
-          Git Dashboard
-        </p>
+        <p>Git Dashboard</p>
       </header>
     </div>
   );
