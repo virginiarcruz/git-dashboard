@@ -1,6 +1,6 @@
 import { createGlobalStyle } from 'styled-components/macro';
 
-import { blue, white } from './colors';
+import { gray, grayLight, blue } from './colors';
 
 export default createGlobalStyle`
 
@@ -20,8 +20,8 @@ body, input, button {
 body {
   font-family: 'Ubuntu', sans-serif;
   -webkit-font-smoothing: antialiased;
-  background-color: ${blue};
-  color: ${white};
+  background-color: ${grayLight};
+  color: ${blue};
   width: 100vw;
   height: 100vh;
   padding: 100px;

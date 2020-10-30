@@ -1,38 +1,55 @@
 // @ts-nocheck
-import React from 'react';
+import React, { useEffect, useContext } from 'react';
 import { useQuery } from '@apollo/client';
 
-import { GET_DATA } from '../../graphql';
 import Title from '../../components/Title';
 import Input from '../../components/Input';
 import Card from '../../components/Card';
 
-import { Container } from './styled';
+import { Container, SectionColumns } from './styled';
 import Button from '../../components/Button';
+import AppContext from '../../context/AppContext';
 
 const Home: React.FC = () => {
-  const { loading, error, data } = useQuery(GET_DATA);
+  const context = useContext(AppContext);
+  const { loading, data } = context;
+  const { pullRequests } = data.repository;
 
-  const totalPullRequests = data.repository.pullRequests.totalCount;
-  const dataPullRequests = data.repository.pullRequests.edges;
-
-  console.log('data', data.repository.pullRequests);
+  useEffect(() => {
+    console.log('carregou');
+  }, [context]);
+  console.log('context fora', context);
 
   return (
     <Container>
-      <Title> Git Dashboard </Title>
+      <Title> Git Dashboard - explore seus pull requests abertos </Title>
       {loading ? (
         'Loading...'
       ) : (
         <div>
           <Input type="text" placeholder="http://..." />
           <Button> Check my repo</Button>
-          <p> Pull requests abertos: {totalPullRequests}</p>
-          <section>
-            {dataPullRequests.map((item: CardProps) => {
-              return <Card>{item.node.title}</Card>;
+          <p> Pull requests abertos: {pullRequests.totalCount}</p>
+          <SectionColumns>
+            {pullRequests.edges.map((item: CardProps) => {
+              return (
+                <Card>
+                  <img
+                    src={item.node.author.avatarUrl}
+                    alt={item.node.author.login}
+                  />
+                  <div>
+                    <p>{item.node.title}</p>
+                    <p>Author: {item.node.author.login}</p>
+                    <span>
+                      {item.node.labels.nodes &&
+                        item.node.labels.nodes.map((label) => label.name)}
+                    </span>
+                  </div>
+                </Card>
+              );
             })}
-          </section>
+          </SectionColumns>
         </div>
       )}
     </Container>

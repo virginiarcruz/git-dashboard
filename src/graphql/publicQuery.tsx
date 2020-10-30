@@ -15,11 +15,9 @@ const GET_USERDATA = gql`
               login
             }
             labels(first: 5) {
-              edges {
-                node {
-                  name
-                  id
-                }
+              nodes {
+                name
+                id
               }
             }
             assignees(first: 5) {
