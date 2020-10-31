@@ -17,8 +17,8 @@ const Home: React.FC = () => {
 
   useEffect(() => {
     console.log('carregou');
+    console.log('data', data.repository);
   }, [context]);
-  console.log('context fora', context);
 
   return (
     <Container>
@@ -33,20 +33,19 @@ const Home: React.FC = () => {
           <SectionColumns>
             {pullRequests.edges.map((item: CardProps) => {
               return (
-                <Card>
-                  <img
-                    src={item.node.author.avatarUrl}
-                    alt={item.node.author.login}
-                  />
-                  <div>
-                    <p>{item.node.title}</p>
-                    <p>Author: {item.node.author.login}</p>
-                    <span>
-                      {item.node.labels.nodes &&
-                        item.node.labels.nodes.map((label) => label.name)}
-                    </span>
-                  </div>
-                </Card>
+                <Card
+                  srcImage={item.node.author.avatarUrl}
+                  author={item.node.author.login}
+                  title={item.node.title}
+                  date="20-03-2020"
+                  totalRequests={item.node.reviewRequests.totalCount}
+                  labels={
+                    item.node.labels.nodes &&
+                    item.node.labels.nodes.map((label) => (
+                      <span>{label.name}</span>
+                    ))
+                  }
+                />
               );
             })}
           </SectionColumns>
