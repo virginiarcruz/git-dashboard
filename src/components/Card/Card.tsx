@@ -1,5 +1,4 @@
 import React from 'react';
-
 import { VscCalendar, VscComment } from 'react-icons/vsc';
 import { CardContainer, CardHeader, CardFooter } from './styled';
 

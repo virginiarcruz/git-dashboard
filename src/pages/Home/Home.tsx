@@ -13,12 +13,8 @@ import AppContext from '../../context/AppContext';
 const Home: React.FC = () => {
   const context = useContext(AppContext);
   const { loading, data } = context;
-  const { pullRequests } = data.repository;
-
-  useEffect(() => {
-    console.log('carregou');
-    console.log('data', data.repository);
-  }, [context]);
+  console.log('data context', !data);
+  console.log('loading context', loading);
 
   return (
     <Container>
@@ -29,9 +25,12 @@ const Home: React.FC = () => {
         <div>
           <Input type="text" placeholder="http://..." />
           <Button> Check my repo</Button>
-          <p> Pull requests abertos: {pullRequests.totalCount}</p>
+          <p>
+            {' '}
+            Pull requests abertos: {data.repository.pullRequests.totalCount}
+          </p>
           <SectionColumns>
-            {pullRequests.edges.map((item: CardProps) => {
+            {data.repository.pullRequests.edges.map((item: CardProps) => {
               return (
                 <Card
                   srcImage={item.node.author.avatarUrl}
