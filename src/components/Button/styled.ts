@@ -8,4 +8,5 @@ export const Container = styled.button`
   padding: 5px 10px;
   font-size: 14px;
   height: 50px;
+  border-radius: 5px;
 `;

@@ -2,7 +2,7 @@ import { gql } from '@apollo/client';
 
 const GET_USERDATA = gql`
   query {
-    repository(owner: "atom", name: "github") {
+    repository(owner: "testing-library", name: "testing-library-docs") {
       pullRequests(last: 100, states: OPEN) {
         totalCount
         edges {

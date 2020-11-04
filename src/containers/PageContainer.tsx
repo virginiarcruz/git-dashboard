@@ -1,21 +1,20 @@
 // @ts-nocheck
-import React from 'react';
+import React, { useContext } from 'react';
+import AppContext from '../context/AppContext';
 
-import Title from '../components/Title';
-import Input from '../components/Input';
 import Card from '../components/Card';
-import Button from '../components/Button';
+import Form from '../components/Form';
 
 import { Container, SectionColumns } from './styled';
 
 const PageContainer: React.FC = ({ repository: { pullRequests } }) => {
+  const context = useContext(AppContext);
+  const { data } = context;
+  console.log('data pagecontainer', data);
   return (
     <Container>
-      <Title> Git Dashboard - explore seus pull requests abertos </Title>
-
       <div>
-        <Input type="text" placeholder="http://..." />
-        <Button> Check my repo</Button>
+        <Form />
         <p> Pull requests abertos: {pullRequests.totalCount}</p>
         <SectionColumns>
           {pullRequests.edges.map((item: CardProps) => {
