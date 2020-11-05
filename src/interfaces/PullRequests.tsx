@@ -1,4 +1,8 @@
 export interface AppContextInterface {
-  loading?: boolean;
-  data?: void;
+  configValue: {
+    loading?: boolean;
+    data?: void;
+  };
+  repo?: string | undefined;
+  setRepo?: any | undefined;
 }
