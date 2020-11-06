@@ -1,5 +1,5 @@
 // @ts-nocheck
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import AppContext from '../context/AppContext';
 
 import Card from '../components/Card';
@@ -8,44 +8,48 @@ import Form from '../components/Form';
 import { Container, SectionColumns } from './styled';
 
 const PageContainer: React.FC = () => {
-  const { configValue, repo } = useContext(AppContext);
+  const { configValue, setConfigValue, repo } = useContext(AppContext);
 
-  const { data } = configValue;
+  console.log('repo pageContainer', repo);
+  console.log('configValue pageContainer', configValue);
+  const { loading, data } = configValue;
 
-  console.log('context page', repo, configValue);
+  // useEffect(() => {
+  //   setConfigValue(configValue);
+  // }, [configValue]);
+
+  console.log('loading pageContainer', loading);
+  console.log('repo pageContainer', repo);
+  console.log('data pageContainer', data?.repository);
+
   return (
     <Container>
       <div>
         <Form />
-        {!repo ? (
-          <p>Insert the owner/repo in search field, to list pull requests </p>
+        {/* {!loading ? (
+          <SectionColumns>
+            {data?.repository.pullRequests.edges.map((item: CardProps) => {
+              return (
+                <Card
+                  key={item.node.title}
+                  srcImage={item.node.author.avatarUrl}
+                  author={item.node.author.login}
+                  title={item.node.title}
+                  date="20-03-2020"
+                  totalRequests={item.node.reviewRequests.totalCount}
+                  labels={
+                    item.node.labels.nodes &&
+                    item.node.labels.nodes.map((label) => (
+                      <span key={label.id}>{label.name}</span>
+                    ))
+                  }
+                />
+              );
+            })}
+          </SectionColumns>
         ) : (
-          <>
-            <p>
-              Pull requests abertos: {data.repository.pullRequests.totalCount}
-            </p>
-            <SectionColumns>
-              {data.repository.pullRequests.edges.map((item: CardProps) => {
-                return (
-                  <Card
-                    key={item.node.title}
-                    srcImage={item.node.author.avatarUrl}
-                    author={item.node.author.login}
-                    title={item.node.title}
-                    date="20-03-2020"
-                    totalRequests={item.node.reviewRequests.totalCount}
-                    labels={
-                      item.node.labels.nodes &&
-                      item.node.labels.nodes.map((label) => (
-                        <span key={label.id}>{label.name}</span>
-                      ))
-                    }
-                  />
-                );
-              })}
-            </SectionColumns>
-          </>
-        )}
+          <p> Loading...</p>
+        )} */}
       </div>
     </Container>
   );
