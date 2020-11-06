@@ -38,6 +38,7 @@
     "no-use-before-define": "off",
     "@typescript-eslint/ban-ts-ignore": "off",
     "@typescript-eslint/ban-ts-comment": "off",
+    "consistent-return": ["error", { "treatUndefinedAsUnspecified": false }],
     "@typescript-eslint/explicit-function-return-type": "off",
     "import/extensions": [
       "error",

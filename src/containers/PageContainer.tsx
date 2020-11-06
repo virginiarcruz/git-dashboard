@@ -18,10 +18,7 @@ const PageContainer: React.FC = () => {
       <div>
         <Form />
         {!repo ? (
-          <p>
-            Insert the <strong>owner/repo</strong> in search field, to list pull
-            requests{' '}
-          </p>
+          <p>Insert the owner/repo in search field, to list pull requests </p>
         ) : (
           <>
             <p>

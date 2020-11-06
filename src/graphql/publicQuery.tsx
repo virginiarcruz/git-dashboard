@@ -1,8 +1,8 @@
 import { gql } from '@apollo/client';
 
 const GET_USERDATA = gql`
-  query {
-    repository(owner: "testing-library", name: "testing-library-docs") {
+  query($owner: String!, $name: String!) {
+    repository(owner: $owner, name: $name) {
       pullRequests(last: 100, states: OPEN) {
         totalCount
         edges {

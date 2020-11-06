@@ -1,4 +1,5 @@
-import React, { createContext, useCallback, useState } from 'react';
+// @ts-nocheck
+import React, { createContext, useCallback, useEffect, useState } from 'react';
 import { useQuery } from '@apollo/client';
 import { AppContextInterface } from '../interfaces/PullRequests';
 
@@ -9,15 +10,22 @@ const AppContext = createContext<AppContextInterface>(
 );
 
 export const AppProvider: React.FC = ({ children }) => {
-  const { loading, data } = useQuery(GET_DATA);
   const [repo, setRepo] = useState();
+
+  const regExpRepoName = /[a-z0-9]+(?:(?:(?:[._]|__|[-]*)[a-z0-9]+)+)?/g;
+  const repoName = repo?.match(regExpRepoName);
+
+  console.log('repo context', repoName);
+
+  const params = { owner: 'atom', name: 'github' };
+
+  const { loading, data } = useQuery(GET_DATA, {
+    variables: params,
+  });
+
   const configValue = { loading, data };
 
-  // const getRepo = useCallback(() => {
-  //   setRepo('text-test');
-  //   localStorage.setItem('@GitDashboard: repo', repo);
-  //   console.log('repo context', repo);
-  // }, [repo]);
+  console.log('data', data);
 
   return (
     <AppContext.Provider value={{ configValue, repo, setRepo }}>
