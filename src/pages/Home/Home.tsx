@@ -1,13 +1,11 @@
 // @ts-nocheck
-import React, { useEffect, useContext } from 'react';
-
-import Title from '../../components/Title';
-import Input from '../../components/Input';
-import Card from '../../components/Card';
+import React, { useContext } from 'react';
 
 import { Container } from './styled';
 import AppContext from '../../context/AppContext';
 import PageContainer from '../../containers';
+
+import Header from '../../components/Header';
 
 const Home: React.FC = () => {
   const context = useContext(AppContext);
@@ -15,7 +13,7 @@ const Home: React.FC = () => {
 
   return (
     <Container>
-      <Title> Git Dashboard - explore seus pull requests abertos </Title>
+      <Header />
       {loading ? 'Loading...' : <PageContainer repository={data?.repository} />}
     </Container>
   );
