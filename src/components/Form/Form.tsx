@@ -1,14 +1,5 @@
 // @ts-nocheck
-import React, {
-  useState,
-  useRef,
-  useContext,
-  useEffect,
-  useCallback,
-} from 'react';
-import { useQuery, useLazyQuery } from '@apollo/client';
-import AppContext from '../../context/AppContext';
-import { GET_DATA } from '../../graphql';
+import React from 'react';
 
 import Button from '../Button';
 import Input from '../Input';
@@ -19,7 +10,7 @@ const Form: React.FC = ({ onSubmit, formRef }) => {
   return (
     <>
       <FormContainer ref={formRef} onSubmit={onSubmit}>
-        <Input type="text" placeholder="http://..." />
+        <Input type="text" placeholder="owner/reponame" />
         <Button type="submit"> Check my repo</Button>
       </FormContainer>
     </>

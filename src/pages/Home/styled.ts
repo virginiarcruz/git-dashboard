@@ -4,6 +4,8 @@ export const Container = styled.div`
   display: grid;
   grid-row-gap: 20px;
   align-items: center;
+  max-width: 85%;
+  margin: 0 auto;
   input {
     margin-right: 20px;
   }

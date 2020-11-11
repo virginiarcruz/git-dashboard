@@ -1,9 +1,6 @@
 // @ts-nocheck
-import React, { createContext, useCallback, useEffect, useState } from 'react';
-import { useQuery, useLazyQuery } from '@apollo/client';
+import React, { createContext, useState } from 'react';
 import { AppContextInterface } from '../interfaces/PullRequests';
-
-import { GET_DATA } from '../graphql';
 
 const AppContext = createContext<AppContextInterface>(
   {} as AppContextInterface,

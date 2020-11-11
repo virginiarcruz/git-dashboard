@@ -10,6 +10,7 @@ const GET_USERDATA = gql`
             title
             url
             mergeable
+            number
             author {
               avatarUrl
               login
@@ -52,6 +53,11 @@ const GET_USERDATA = gql`
                   state
                 }
               }
+            }
+            milestone {
+              state
+              dueOn
+              progressPercentage
             }
           }
         }

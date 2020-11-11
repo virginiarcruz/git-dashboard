@@ -1,5 +1,5 @@
 // @ts-nocheck
-import React, { useContext, useEffect, useRef } from 'react';
+import React, { useContext, useEffect, useRef, useCallback } from 'react';
 import { useLazyQuery } from '@apollo/client';
 
 import AppContext from '../context/AppContext';
@@ -7,13 +7,15 @@ import { GET_DATA } from '../graphql';
 
 import Card from '../components/Card';
 import Form from '../components/Form';
+import Filter from '../components/Filter';
 
 import { Container, SectionColumns } from './styled';
 import SubTitle from '../components/SubTitle';
+import SectionHeader from '../components/SectionHeader';
 
 const PageContainer: React.FC = () => {
   const getFormRef = useRef<HTMLInputElement>(null);
-  const { configValue, setConfigValue, repo, setRepo } = useContext(AppContext);
+  const { configValue, repo, setRepo } = useContext(AppContext);
 
   const regExpRepoName = /[a-z0-9]+(?:(?:(?:[._]|__|[-]*)[a-z0-9]+)+)?/g;
   const repoName = repo?.match(regExpRepoName);
@@ -46,7 +48,20 @@ const PageContainer: React.FC = () => {
       console.log('error', error.errors);
       configValue.error = error;
     }
-  }, [loading, data, error]);
+  }, [loading, data, error, configValue]);
+
+  const getAuthor = useCallback(() => {
+    let allAuthors = [];
+    if (data) {
+      data?.repository.pullRequests.edges.map((item) =>
+        allAuthors.push(item.node.author.login),
+      );
+    }
+
+    allAuthors = Array.from(new Set(allAuthors));
+
+    return allAuthors.map((item) => item);
+  }, [data]);
 
   return (
     <Container>
@@ -55,10 +70,13 @@ const PageContainer: React.FC = () => {
         {!loading ? (
           <>
             {data && (
-              <SubTitle hasBullet secondary>
-                Number of pull requests opened
-                <span>{data?.repository.pullRequests.totalCount}</span>
-              </SubTitle>
+              <SectionHeader>
+                <SubTitle hasBullet secondary>
+                  Number of pull requests opened
+                  <span>{data?.repository.pullRequests.totalCount}</span>
+                </SubTitle>
+                <Filter defaultName="author" options={getAuthor()} />
+              </SectionHeader>
             )}
             <SectionColumns>
               {error && <p> Has an error {error.errors}</p>}
@@ -72,6 +90,7 @@ const PageContainer: React.FC = () => {
                       title={item.node.title}
                       date="20-03-2020"
                       totalRequests={item.node.reviewRequests.totalCount}
+                      prNumber={item.node.number}
                       labels={
                         item.node.labels.nodes &&
                         item.node.labels.nodes.map((label) => (

@@ -2,9 +2,11 @@ import styled from 'styled-components';
 import {
   blue,
   grayDarkSec,
+  grayLight,
   graySecondary,
   orange1,
   white,
+  grayDarkMedium,
 } from '../../styles/colors';
 
 export const CardContainer = styled.section`
@@ -48,6 +50,14 @@ export const CardHeader = styled.header`
     font-weight: 400;
     color: ${graySecondary};
   }
+`;
+
+export const TagNumber = styled.small`
+  background-color: ${grayLight};
+  color: ${grayDarkMedium};
+  width: max-content;
+  padding: 2px 6px;
+  font-weight: 500;
 `;
 export const CardFooter = styled.footer`
   margin-top: 20px;

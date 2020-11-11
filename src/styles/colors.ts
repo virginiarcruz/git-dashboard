@@ -9,6 +9,7 @@ export const gray = '#4d4f66';
 export const graySecondary = '#091E42';
 export const grayDark = '#494949';
 export const grayDarkSec = '#707C90';
+export const grayDarkMedium = '#939dab';
 export const grayLight = '#F4F5F7';
 
 export const white = '#ffffff';

@@ -1,7 +1,7 @@
 // @ts-nocheck
 
 import styled, { css } from 'styled-components';
-import { blueLight, grayDarkSec, grayLight, white } from '../../styles/colors';
+import { blueLight, grayDarkSec, white } from '../../styles/colors';
 
 export const SubTitleContainer = styled.h2`
   font-size: ${({ secondary }) => (secondary ? '18px' : '20px')};

@@ -1,6 +1,6 @@
 import { createGlobalStyle } from 'styled-components/macro';
 
-import { gray, grayLight, blue } from './colors';
+import { grayLight, blue } from './colors';
 
 export default createGlobalStyle`
 

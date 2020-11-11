@@ -1,6 +1,6 @@
 import React from 'react';
 import { VscCalendar, VscComment } from 'react-icons/vsc';
-import { CardContainer, CardHeader, CardFooter } from './styled';
+import { CardContainer, CardHeader, CardFooter, TagNumber } from './styled';
 
 interface CardProps {
   srcImage: string;
@@ -9,6 +9,7 @@ interface CardProps {
   date: string;
   totalRequests?: string;
   labels: Record<string, any>;
+  prNumber: number;
 }
 
 const Card: React.FC<CardProps> = ({
@@ -18,6 +19,7 @@ const Card: React.FC<CardProps> = ({
   title,
   date,
   totalRequests,
+  prNumber,
   labels,
 }) => {
   return (
@@ -26,6 +28,7 @@ const Card: React.FC<CardProps> = ({
         <img src={srcImage} alt={author} />
         <h3> {author} </h3>
       </CardHeader>
+      <TagNumber>#{prNumber}</TagNumber>
       <h2>{title}</h2>
       <p>
         <VscCalendar size={20} />

@@ -1,4 +1,4 @@
-import React, { useRef, InputHTMLAttributes, useState } from 'react';
+import React, { useRef, InputHTMLAttributes } from 'react';
 
 import { InputContainer } from './styled';
 
