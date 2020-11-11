@@ -9,12 +9,7 @@ interface FormSelectProps {
 }
 
 const Filter: React.FC<FormSelectProps> = ({ options, defaultName }) => {
-  return (
-    <FilterContainer>
-      Filter by:
-      <FormSelect defaultName={defaultName} options={options} />
-    </FilterContainer>
-  );
+  return <FormSelect defaultName={defaultName} options={options} />;
 };
 
 export default Filter;

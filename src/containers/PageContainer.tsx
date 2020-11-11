@@ -63,6 +63,21 @@ const PageContainer: React.FC = () => {
     return allAuthors.map((item) => item);
   }, [data]);
 
+  const getLabel = useCallback(() => {
+    let allLabels = [];
+    if (data) {
+      data?.repository.pullRequests.edges.map((item) =>
+        item.node.labels.nodes.map((label) => allLabels.push(label.name)),
+      );
+    }
+
+    allLabels = Array.from(new Set(allLabels));
+
+    return allLabels.map((item) => item);
+  }, [data]);
+
+  console.log('getlabel', getLabel());
+
   return (
     <Container>
       <div>
@@ -75,7 +90,10 @@ const PageContainer: React.FC = () => {
                   Number of pull requests opened
                   <span>{data?.repository.pullRequests.totalCount}</span>
                 </SubTitle>
+
+                <p>Filter by: </p>
                 <Filter defaultName="author" options={getAuthor()} />
+                <Filter defaultName="label" options={getLabel()} />
               </SectionHeader>
             )}
             <SectionColumns>
