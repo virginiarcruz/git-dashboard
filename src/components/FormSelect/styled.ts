@@ -13,4 +13,5 @@ export const Select = styled.select`
   padding: 5px;
   font-size: 14px;
   color: ${grayDarkMedium};
+  max-width: 150px;
 `;

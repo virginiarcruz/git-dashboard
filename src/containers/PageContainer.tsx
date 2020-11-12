@@ -1,5 +1,11 @@
 // @ts-nocheck
-import React, { useContext, useEffect, useRef, useCallback } from 'react';
+import React, {
+  useContext,
+  useEffect,
+  useRef,
+  useCallback,
+  useState,
+} from 'react';
 import { useLazyQuery } from '@apollo/client';
 
 import AppContext from '../context/AppContext';
@@ -15,7 +21,10 @@ import SectionHeader from '../components/SectionHeader';
 
 const PageContainer: React.FC = () => {
   const getFormRef = useRef<HTMLInputElement>(null);
+  const getFilterRef = useRef<HTMLSelectElement>(null);
   const { configValue, repo, setRepo } = useContext(AppContext);
+  const [author, setAuthor] = useState('');
+  const [label, setLabel] = useState('');
 
   const regExpRepoName = /[a-z0-9]+(?:(?:(?:[._]|__|[-]*)[a-z0-9]+)+)?/g;
   const repoName = repo?.match(regExpRepoName);
@@ -67,7 +76,9 @@ const PageContainer: React.FC = () => {
     let allLabels = [];
     if (data) {
       data?.repository.pullRequests.edges.map((item) =>
-        item.node.labels.nodes.map((label) => allLabels.push(label.name)),
+        item.node.labels.nodes.map((labelData) =>
+          allLabels.push(labelData.name),
+        ),
       );
     }
 
@@ -77,6 +88,27 @@ const PageContainer: React.FC = () => {
   }, [data]);
 
   console.log('getlabel', getLabel());
+
+  const handleAuthor = (): void => {
+    const filterValue = getFilterRef.current.value;
+    setAuthor(filterValue);
+  };
+
+  const handleLabel = (): void => {
+    const filterValue = getFilterRef.current.value;
+    setLabel(filterValue);
+    console.log('filtro label', filterValue);
+  };
+
+  const filterAuthor = data?.repository.pullRequests.edges.filter((item) =>
+    item.node.author.login.includes(author),
+  );
+
+  const filterLabel = data?.repository.pullRequests.edges.map((item) =>
+    item.node.labels.nodes.filter((labelFiltered) =>
+      labelFiltered.name.includes(label),
+    ),
+  );
 
   return (
     <Container>
@@ -90,15 +122,26 @@ const PageContainer: React.FC = () => {
                   Number of pull requests opened
                   <span>{data?.repository.pullRequests.totalCount}</span>
                 </SubTitle>
-
-                <p>Filter by: </p>
-                <Filter defaultName="author" options={getAuthor()} />
-                <Filter defaultName="label" options={getLabel()} />
+                <div>
+                  <p>Filter by: </p>
+                  <Filter
+                    filterRef={getFilterRef}
+                    defaultName="author"
+                    options={getAuthor()}
+                    onChange={() => handleAuthor()}
+                  />
+                  <Filter
+                    filterRef={getFilterRef}
+                    defaultName="label"
+                    options={getLabel()}
+                    onChange={() => handleLabel()}
+                  />
+                </div>
               </SectionHeader>
             )}
             <SectionColumns>
               {error && <p> Has an error {error.errors}</p>}
-              {data?.repository.pullRequests.edges.map((item: CardProps) => {
+              {filterAuthor?.map((item: CardProps) => {
                 return (
                   <>
                     <Card
@@ -111,8 +154,8 @@ const PageContainer: React.FC = () => {
                       prNumber={item.node.number}
                       labels={
                         item.node.labels.nodes &&
-                        item.node.labels.nodes.map((label) => (
-                          <span key={label.id}>{label.name}</span>
+                        item.node.labels.nodes.map((labelItem) => (
+                          <span key={labelItem.id}>{labelItem.name}</span>
                         ))
                       }
                     />
