@@ -23,6 +23,7 @@ const PageContainer: React.FC = () => {
   const getFormRef = useRef<HTMLInputElement>(null);
   const getFilterRef = useRef<HTMLSelectElement>(null);
   const { configValue, repo, setRepo } = useContext(AppContext);
+  const [repoData, setRepoData] = useState({});
   const [author, setAuthor] = useState('');
   const [label, setLabel] = useState('');
 
@@ -59,6 +60,11 @@ const PageContainer: React.FC = () => {
     }
   }, [loading, data, error, configValue]);
 
+  useEffect(() => {
+    if (data && !loading) {
+      setRepoData(data);
+    }
+  }, [data]);
   const getAuthor = useCallback(() => {
     let allAuthors = [];
     if (data) {
@@ -87,7 +93,7 @@ const PageContainer: React.FC = () => {
     return allLabels.map((item) => item);
   }, [data]);
 
-  console.log('getlabel', getLabel());
+  const { repository } = repoData;
 
   const handleAuthor = (): void => {
     const filterValue = getFilterRef.current.value;
@@ -97,18 +103,21 @@ const PageContainer: React.FC = () => {
   const handleLabel = (): void => {
     const filterValue = getFilterRef.current.value;
     setLabel(filterValue);
-    console.log('filtro label', filterValue);
   };
 
-  const filterAuthor = data?.repository.pullRequests.edges.filter((item) =>
+  const filterAuthor = repository?.pullRequests.edges.filter((item) =>
     item.node.author.login.includes(author),
   );
 
-  const filterLabel = data?.repository.pullRequests.edges.map((item) =>
-    item.node.labels.nodes.filter((labelFiltered) =>
-      labelFiltered.name.includes(label),
+  const filterLabel = repository?.pullRequests.edges.map((item) =>
+    item.node.labels.nodes.filter((labelData) =>
+      labelData.name.includes(label),
     ),
   );
+
+  console.log('1 repoData', repoData);
+  console.log('2 repository', repository?.pullRequests);
+  // console.log('filterlabel', filterLabel);
 
   return (
     <Container>
@@ -120,7 +129,7 @@ const PageContainer: React.FC = () => {
               <SectionHeader>
                 <SubTitle hasBullet secondary>
                   Number of pull requests opened
-                  <span>{data?.repository.pullRequests.totalCount}</span>
+                  <span>{repository?.pullRequests.totalCount}</span>
                 </SubTitle>
                 <div>
                   <p>Filter by: </p>
