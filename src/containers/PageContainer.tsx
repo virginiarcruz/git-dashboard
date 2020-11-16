@@ -68,29 +68,27 @@ const PageContainer: React.FC = () => {
   const getAuthor = useCallback(() => {
     let allAuthors = [];
     if (data) {
-      data?.repository.pullRequests.edges.map((item) =>
+      data?.repository.pullRequests.edges.map(item =>
         allAuthors.push(item.node.author.login),
       );
     }
 
     allAuthors = Array.from(new Set(allAuthors));
 
-    return allAuthors.map((item) => item);
+    return allAuthors.map(item => item);
   }, [data]);
 
   const getLabel = useCallback(() => {
     let allLabels = [];
     if (data) {
-      data?.repository.pullRequests.edges.map((item) =>
-        item.node.labels.nodes.map((labelData) =>
-          allLabels.push(labelData.name),
-        ),
+      data?.repository.pullRequests.edges.map(item =>
+        item.node.labels.nodes.map(labelData => allLabels.push(labelData.name)),
       );
     }
 
     allLabels = Array.from(new Set(allLabels));
 
-    return allLabels.map((item) => item);
+    return allLabels.map(item => item);
   }, [data]);
 
   const { repository } = repoData;
@@ -105,14 +103,12 @@ const PageContainer: React.FC = () => {
     setLabel(filterValue);
   };
 
-  const filterAuthor = repository?.pullRequests.edges.filter((item) =>
+  const filterAuthor = repository?.pullRequests.edges.filter(item =>
     item.node.author.login.includes(author),
   );
 
-  const filterLabel = repository?.pullRequests.edges.map((item) =>
-    item.node.labels.nodes.filter((labelData) =>
-      labelData.name.includes(label),
-    ),
+  const filterLabel = repository?.pullRequests.edges.map(item =>
+    item.node.labels.nodes.filter(labelData => labelData.name.includes(label)),
   );
 
   console.log('1 repoData', repoData);
@@ -163,7 +159,7 @@ const PageContainer: React.FC = () => {
                       prNumber={item.node.number}
                       labels={
                         item.node.labels.nodes &&
-                        item.node.labels.nodes.map((labelItem) => (
+                        item.node.labels.nodes.map(labelItem => (
                           <span key={labelItem.id}>{labelItem.name}</span>
                         ))
                       }

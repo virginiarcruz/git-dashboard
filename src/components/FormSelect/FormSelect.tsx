@@ -18,7 +18,7 @@ const FormSelect: React.FC<FormSelectProps> = ({
   return (
     <Select onChange={onChange} ref={filterRef}>
       <option value=""> {defaultName} </option>
-      {options?.map((option) => (
+      {options?.map(option => (
         <option key={option} value={option}>
           {option}
         </option>
