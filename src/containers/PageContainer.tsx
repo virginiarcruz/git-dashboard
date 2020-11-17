@@ -26,6 +26,7 @@ const PageContainer: React.FC = () => {
   const [repoData, setRepoData] = useState({});
   const [author, setAuthor] = useState('');
   const [label, setLabel] = useState('');
+  const [type, setType] = useState('');
 
   const regExpRepoName = /[a-z0-9]+(?:(?:(?:[._]|__|[-]*)[a-z0-9]+)+)?/g;
   const repoName = repo?.match(regExpRepoName);
@@ -98,26 +99,37 @@ const PageContainer: React.FC = () => {
   const handleAuthor = (): void => {
     const filterValue = getFilterRef.current.value;
     setAuthor(filterValue);
+    setType('author');
+    return type;
   };
 
   const handleLabel = (): void => {
     const filterValue = getFilterRef.current.value;
     setLabel(filterValue);
+    setType('label');
+    return type;
   };
 
-  const filterAuthor = repository?.pullRequests.edges.filter((item) =>
-    item.node.author.login.includes(author),
-  );
+  const filterAuthor = repository?.pullRequests.edges.filter((item) => {
+    return item.node.author.login.includes(author);
+  });
 
-  const filterLabel = repository?.pullRequests.edges.map((item) =>
-    item.node.labels.nodes.filter((labelData) =>
-      labelData.name.includes(label),
-    ),
-  );
+  const filterLabel = repository?.pullRequests.edges.filter((item) => {
+    return item.node.labels.nodes.some(({ name }) => name?.includes(label));
+  });
 
-  console.log('1 repoData', repoData);
-  console.log('2 repository', repository?.pullRequests);
-  // console.log('filterlabel', filterLabel);
+  function filterdItems(typeData) {
+    console.log('typedata', typeData, typeof typeData);
+    if (typeData == 'author') {
+      return filterAuthor;
+    }
+    if (typeData == 'label') {
+      return filterLabel;
+    }
+    return ' ';
+  }
+
+  console.log('filter by: ', filterdItems(type));
 
   return (
     <Container>
@@ -150,7 +162,8 @@ const PageContainer: React.FC = () => {
             )}
             <SectionColumns>
               {error && <p> Has an error {error.errors}</p>}
-              {filterAuthor?.map((item: CardProps) => {
+              {filterLabel?.map((item: CardProps) => {
+                console.log('author', item);
                 return (
                   <>
                     <Card
