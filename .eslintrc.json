@@ -36,6 +36,8 @@
     "@typescript-eslint/camelcase": "off",
     "import/no-duplicates": "off",
     "no-use-before-define": "off",
+    "array-callback-return": "off",
+    "eqeqeq": "off",
     "@typescript-eslint/ban-ts-ignore": "off",
     "@typescript-eslint/ban-ts-comment": "off",
     "consistent-return": ["error", { "treatUndefinedAsUnspecified": false }],
