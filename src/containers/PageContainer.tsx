@@ -21,9 +21,9 @@ import SectionHeader from '../components/SectionHeader';
 
 const PageContainer: React.FC = () => {
   const getFormRef = useRef<HTMLInputElement>(null);
-  const getFilterRef = useRef<HTMLSelectElement>(null);
+  const getRefLabel = useRef<HTMLSelectElement>(null);
+  const getRefAuthor = useRef<HTMLSelectElement>(null);
   const { configValue, repo, setRepo } = useContext(AppContext);
-  const [repoData, setRepoData] = useState({});
   const [author, setAuthor] = useState('');
   const [label, setLabel] = useState('');
   const [type, setType] = useState('');
@@ -61,11 +61,6 @@ const PageContainer: React.FC = () => {
     }
   }, [loading, data, error, configValue]);
 
-  useEffect(() => {
-    if (data && !loading) {
-      setRepoData(data);
-    }
-  }, [data]);
   const getAuthor = useCallback(() => {
     let allAuthors = [];
     if (data) {
@@ -75,7 +70,6 @@ const PageContainer: React.FC = () => {
     }
 
     allAuthors = Array.from(new Set(allAuthors));
-
     return allAuthors.map((item) => item);
   }, [data]);
 
@@ -90,46 +84,43 @@ const PageContainer: React.FC = () => {
     }
 
     allLabels = Array.from(new Set(allLabels));
-
     return allLabels.map((item) => item);
   }, [data]);
 
-  const { repository } = repoData;
-
   const handleAuthor = (): void => {
-    const filterValue = getFilterRef.current.value;
-    setAuthor(filterValue);
+    const filterAuthorValue = getRefAuthor.current.value;
+    setAuthor(filterAuthorValue);
     setType('author');
     return type;
   };
 
   const handleLabel = (): void => {
-    const filterValue = getFilterRef.current.value;
+    const filterValue = getRefLabel.current.value;
     setLabel(filterValue);
     setType('label');
     return type;
   };
 
-  const filterAuthor = repository?.pullRequests.edges.filter((item) => {
+  const filterAuthor = data?.repository?.pullRequests.edges.filter((item) => {
     return item.node.author.login.includes(author);
   });
 
-  const filterLabel = repository?.pullRequests.edges.filter((item) => {
+  const filterLabel = data?.repository?.pullRequests.edges.filter((item) => {
     return item.node.labels.nodes.some(({ name }) => name?.includes(label));
   });
 
-  function filterdItems(typeData) {
-    console.log('typedata', typeData, typeof typeData);
+  function itemsFiltering(typeData) {
     if (typeData == 'author') {
       return filterAuthor;
     }
     if (typeData == 'label') {
       return filterLabel;
     }
-    return ' ';
+    return '';
   }
 
-  console.log('filter by: ', filterdItems(type));
+  const itemsFiltered =
+    itemsFiltering(type) ?? JSON.parse(itemsFiltering(type));
 
   return (
     <Container>
@@ -141,18 +132,18 @@ const PageContainer: React.FC = () => {
               <SectionHeader>
                 <SubTitle hasBullet secondary>
                   Number of pull requests opened
-                  <span>{repository?.pullRequests.totalCount}</span>
+                  <span>{data?.repository?.pullRequests.totalCount}</span>
                 </SubTitle>
                 <div>
                   <p>Filter by: </p>
                   <Filter
-                    filterRef={getFilterRef}
+                    filterRef={getRefAuthor}
                     defaultName="author"
                     options={getAuthor()}
                     onChange={() => handleAuthor()}
                   />
                   <Filter
-                    filterRef={getFilterRef}
+                    filterRef={getRefLabel}
                     defaultName="label"
                     options={getLabel()}
                     onChange={() => handleLabel()}
@@ -162,28 +153,28 @@ const PageContainer: React.FC = () => {
             )}
             <SectionColumns>
               {error && <p> Has an error {error.errors}</p>}
-              {filterLabel?.map((item: CardProps) => {
-                console.log('author', item);
-                return (
-                  <>
-                    <Card
-                      key={item.node.title}
-                      srcImage={item.node.author.avatarUrl}
-                      author={item.node.author.login}
-                      title={item.node.title}
-                      date="20-03-2020"
-                      totalRequests={item.node.reviewRequests.totalCount}
-                      prNumber={item.node.number}
-                      labels={
-                        item.node.labels.nodes &&
-                        item.node.labels.nodes.map((labelItem) => (
-                          <span key={labelItem.id}>{labelItem.name}</span>
-                        ))
-                      }
-                    />
-                  </>
-                );
-              })}
+              {itemsFiltered &&
+                itemsFiltered.map((item: CardProps) => {
+                  return (
+                    <>
+                      <Card
+                        key={item.node.title}
+                        srcImage={item.node.author.avatarUrl}
+                        author={item.node.author.login}
+                        title={item.node.title}
+                        date="20-03-2020"
+                        totalRequests={item.node.reviewRequests.totalCount}
+                        prNumber={item.node.number}
+                        labels={
+                          item.node.labels.nodes &&
+                          item.node.labels.nodes.map((labelItem) => (
+                            <span key={labelItem.id}>{labelItem.name}</span>
+                          ))
+                        }
+                      />
+                    </>
+                  );
+                })}
             </SectionColumns>
           </>
         ) : (
