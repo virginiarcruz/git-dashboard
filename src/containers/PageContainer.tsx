@@ -101,6 +101,10 @@ const PageContainer: React.FC = () => {
     return type;
   };
 
+  const allEntries = data?.repository?.pullRequests.edges.map((entrie) => {
+    return entrie;
+  });
+
   const filterAuthor = data?.repository?.pullRequests.edges.filter((item) => {
     return item.node.author.login.includes(author);
   });
@@ -110,17 +114,19 @@ const PageContainer: React.FC = () => {
   });
 
   function itemsFiltering(typeData) {
-    if (typeData == 'author') {
-      return filterAuthor;
+    switch (typeData) {
+      case 'author':
+        return filterAuthor;
+        break;
+      case 'label':
+        return filterLabel;
+        break;
+      default:
+        return allEntries;
     }
-    if (typeData == 'label') {
-      return filterLabel;
-    }
-    return '';
   }
 
-  const itemsFiltered =
-    itemsFiltering(type) ?? JSON.parse(itemsFiltering(type));
+  const itemsFiltered = itemsFiltering(type);
 
   return (
     <Container>
