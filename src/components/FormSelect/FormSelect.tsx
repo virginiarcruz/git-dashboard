@@ -6,7 +6,7 @@ interface FormSelectProps {
   options?: Array<string>;
   defaultName?: string;
   onChange?: () => void;
-  filterRef?: () => void | any;
+  filterRef?: () => void;
 }
 
 const FormSelect: React.FC<FormSelectProps> = ({
@@ -17,7 +17,9 @@ const FormSelect: React.FC<FormSelectProps> = ({
 }) => {
   return (
     <Select onChange={onChange} ref={filterRef}>
-      <option value=""> {defaultName} </option>
+      <option key="unique" value="">
+        {defaultName}
+      </option>
       {options?.map((option) => (
         <option key={option} value={option}>
           {option}

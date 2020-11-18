@@ -10,8 +10,8 @@ const Form: React.FC = ({ onSubmit, formRef }) => {
   return (
     <>
       <FormContainer ref={formRef} onSubmit={onSubmit}>
-        <Input type="text" placeholder="owner/reponame" />
-        <Button type="submit"> Check my repo</Button>
+        <Input type="text" required placeholder="owner/reponame" />
+        <Button type="submit"> Check my repo </Button>
       </FormContainer>
     </>
   );

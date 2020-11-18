@@ -1,13 +1,11 @@
 import React from 'react';
 import FormSelect from '../FormSelect';
 
-import { FilterContainer } from './styled';
-
 interface FormSelectProps {
   options?: Array<string>;
   defaultName?: string;
   onChange?: () => void;
-  filterRef?: () => void | any;
+  filterRef?: () => void;
 }
 
 const Filter: React.FC<FormSelectProps> = ({

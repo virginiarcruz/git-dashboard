@@ -1,11 +1,5 @@
 import styled from 'styled-components';
-import {
-  gray,
-  grayDark,
-  grayDarkMedium,
-  grayLight,
-  graySecondary,
-} from '../../styles/colors';
+import { grayDarkMedium, grayLight } from '../../styles/colors';
 
 export const Select = styled.select`
   margin-left: 10px;

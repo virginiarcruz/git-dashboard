@@ -174,7 +174,7 @@ const PageContainer: React.FC = () => {
                         labels={
                           item.node.labels.nodes &&
                           item.node.labels.nodes.map((labelItem) => (
-                            <span key={labelItem.id}>{labelItem.name}</span>
+                            <span key={labelItem.name}>{labelItem.name}</span>
                           ))
                         }
                       />

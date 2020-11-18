@@ -14,6 +14,8 @@ const Input: React.FC<InputProps> = ({
   ...rest
 }) => {
   const inputRef = useRef<HTMLInputElement>(null);
+  console.log('inputRed', inputRef?.current?.required);
+  console.log('valid', inputRef?.current?.validity.valid);
 
   return (
     <>
