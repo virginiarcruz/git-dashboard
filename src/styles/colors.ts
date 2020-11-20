@@ -13,3 +13,4 @@ export const grayDarkMedium = '#939dab';
 export const grayLight = '#F4F5F7';
 
 export const white = '#ffffff';
+export const red = '#df360e';

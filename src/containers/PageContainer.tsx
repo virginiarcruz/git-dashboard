@@ -40,13 +40,13 @@ const PageContainer: React.FC = () => {
     variables: params,
   });
 
-  const handleFormInput = (event): void => {
-    event.preventDefault();
-    getRepoData();
-    const newRepo = getFormRef.current[0].value;
-    setRepo(newRepo);
-    getFormRef.current[0].value = '';
-  };
+  // const handleFormInput = (event): void => {
+  //   event.preventDefault();
+  //   getRepoData();
+  //   const newRepo = getFormRef.current[0].value;
+  //   setRepo(newRepo);
+  //   getFormRef.current[0].value = '';
+  // };
 
   useEffect(() => {
     if (data) {
@@ -131,7 +131,7 @@ const PageContainer: React.FC = () => {
   return (
     <Container>
       <div>
-        <Form formRef={getFormRef} onSubmit={handleFormInput} />
+        <Form formRef={getFormRef} />
         {!loading ? (
           <>
             {data && (
