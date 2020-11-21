@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { red } from '../styles/colors';
 
 export const Container = styled.div`
   display: grid;
@@ -14,4 +15,13 @@ export const SectionColumns = styled.section`
   grid-template-rows: 1fr 1fr;
   grid-gap: 20px;
   margin-top: 30px;
+`;
+
+export const Error = styled.p`
+  display: block;
+  width: 100%;
+  align-items: flex-start;
+  text-align: left;
+  margin-top: 10px;
+  color: ${red};
 `;

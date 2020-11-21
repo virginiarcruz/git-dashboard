@@ -1,39 +1,36 @@
 // @ts-nocheck
 import React from 'react';
-import useForm from '../../hooks/useForm';
-import validate from '../../utils/inputValidationRules';
+// import useForm from '../../hooks/useForm';
+// import validate from '../../utils/inputValidationRules';
 
 import Button from '../Button';
 import Input from '../Input';
 
 import { FormContainer, Error } from './styled';
 
-const Form: React.FC = ({ getFormRef }) => {
-  const { values, errors, handleChange, handleSubmit } = useForm(
-    getRepo,
-    validate,
-  );
-
-  function getRepo() {
-    console.log('No errors, submit callback called!');
-    console.log(values);
-  }
-
+const Form: React.FC = ({
+  formRef,
+  onSubmit,
+  inputChange,
+  className,
+  value,
+  children,
+}) => {
   return (
     <>
-      <FormContainer ref={getFormRef} onSubmit={handleSubmit} noValidate>
+      <FormContainer ref={formRef} onSubmit={onSubmit} noValidate>
         <Input
-          className={`${errors.repo && 'is-error'}`}
+          className={className}
           type="text"
           placeholder="owner/reponame"
-          onChange={handleChange}
+          onChange={inputChange}
           name="repo"
-          value={values.repo || ''}
+          value={value}
           autoComplete="on"
           required
         />
         <Button type="submit"> Check my repo </Button>
-        {errors.repo && <Error>{errors.repo}</Error>}
+        {children}
       </FormContainer>
     </>
   );

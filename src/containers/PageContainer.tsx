@@ -7,6 +7,8 @@ import React, {
   useState,
 } from 'react';
 import { useLazyQuery } from '@apollo/client';
+import useForm from '../hooks/useForm';
+import validate from '../utils/inputValidationRules';
 
 import AppContext from '../context/AppContext';
 import { GET_DATA } from '../graphql';
@@ -15,7 +17,7 @@ import Card from '../components/Card';
 import Form from '../components/Form';
 import Filter from '../components/Filter';
 
-import { Container, SectionColumns } from './styled';
+import { Container, SectionColumns, Error } from './styled';
 import SubTitle from '../components/SubTitle';
 import SectionHeader from '../components/SectionHeader';
 
@@ -40,13 +42,17 @@ const PageContainer: React.FC = () => {
     variables: params,
   });
 
-  // const handleFormInput = (event): void => {
-  //   event.preventDefault();
-  //   getRepoData();
-  //   const newRepo = getFormRef.current[0].value;
-  //   setRepo(newRepo);
-  //   getFormRef.current[0].value = '';
-  // };
+  const { values, errors, handleChange, handleSubmit } = useForm(
+    getRepo,
+    validate,
+  );
+
+  function getRepo() {
+    getRepoData();
+    const newRepo = getFormRef.current[0].value;
+    setRepo(newRepo);
+    getFormRef.current[0].value = '';
+  }
 
   useEffect(() => {
     if (data) {
@@ -131,7 +137,15 @@ const PageContainer: React.FC = () => {
   return (
     <Container>
       <div>
-        <Form formRef={getFormRef} />
+        <Form
+          formRef={getFormRef}
+          onSubmit={handleSubmit}
+          inputChange={handleChange}
+          className={`${errors.repo && 'is-error'}`}
+          value={values.repo || ''}
+        >
+          {errors.repo && <Error>{errors.repo}</Error>}
+        </Form>
         {!loading ? (
           <>
             {data && (
