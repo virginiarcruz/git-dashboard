@@ -8,6 +8,7 @@ import React, {
 } from 'react';
 import { useLazyQuery } from '@apollo/client';
 import useForm from '../hooks/useForm';
+import useGetData from '../hooks/useGetData';
 import validate from '../utils/inputValidationRules';
 
 import AppContext from '../context/AppContext';
@@ -47,6 +48,10 @@ const PageContainer: React.FC = () => {
     validate,
   );
 
+  const { allAuthors, allLabels, getAllAuthors, getAllLabels } = useGetData(
+    data,
+  );
+
   function getRepo() {
     getRepoData();
     const newRepo = getFormRef.current[0].value;
@@ -67,30 +72,9 @@ const PageContainer: React.FC = () => {
     }
   }, [loading, data, error, configValue]);
 
-  const getAuthor = useCallback(() => {
-    let allAuthors = [];
-    if (data) {
-      data?.repository.pullRequests.edges.map((item) =>
-        allAuthors.push(item.node.author.login),
-      );
-    }
-
-    allAuthors = Array.from(new Set(allAuthors));
-    return allAuthors.map((item) => item);
-  }, [data]);
-
-  const getLabel = useCallback(() => {
-    let allLabels = [];
-    if (data) {
-      data?.repository.pullRequests.edges.map((item) =>
-        item.node.labels.nodes.map((labelData) =>
-          allLabels.push(labelData.name),
-        ),
-      );
-    }
-
-    allLabels = Array.from(new Set(allLabels));
-    return allLabels.map((item) => item);
+  useEffect(() => {
+    getAllAuthors();
+    getAllLabels();
   }, [data]);
 
   const handleAuthor = (): void => {
@@ -159,13 +143,13 @@ const PageContainer: React.FC = () => {
                   <Filter
                     filterRef={getRefAuthor}
                     defaultName="author"
-                    options={getAuthor()}
+                    options={allAuthors}
                     onChange={() => handleAuthor()}
                   />
                   <Filter
                     filterRef={getRefLabel}
                     defaultName="label"
-                    options={getLabel()}
+                    options={allLabels}
                     onChange={() => handleLabel()}
                   />
                 </div>

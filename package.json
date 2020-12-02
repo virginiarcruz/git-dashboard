@@ -20,6 +20,7 @@
     "apollo-link-context": "^1.0.20",
     "apollo-link-error": "^1.1.13",
     "apollo3-cache-persist": "^0.8.0",
+    "babel-loader": "8.1.0",
     "dotenv": "^8.2.0",
     "graphql": "^15.4.0",
     "react": "^17.0.1",
@@ -31,12 +32,14 @@
     "web-vitals": "^0.2.4"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "start": "rm -rf tsconfig.json && react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "prettier": "prettier --config prettier.config.js --write \"./**/*.{js,jsx,ts,tsx}\"",
-    "prettify": "pretty-quick --staged"
+    "prettify": "pretty-quick --staged",
+    "storybook": "start-storybook -p 6006",
+    "build-storybook": "build-storybook"
   },
   "browserslist": {
     "production": [
@@ -51,6 +54,12 @@
     ]
   },
   "devDependencies": {
+    "@babel/core": "^7.12.9",
+    "@storybook/addon-actions": "^6.1.5",
+    "@storybook/addon-essentials": "^6.1.5",
+    "@storybook/addon-links": "^6.1.5",
+    "@storybook/preset-typescript": "^3.0.0",
+    "@storybook/react": "^6.1.5",
     "@types/styled-components": "^5.1.4",
     "@typescript-eslint/eslint-plugin": "^4.6.0",
     "@typescript-eslint/parser": "^4.6.0",
