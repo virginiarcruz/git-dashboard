@@ -37,9 +37,7 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "prettier": "prettier --config prettier.config.js --write \"./**/*.{js,jsx,ts,tsx}\"",
-    "prettify": "pretty-quick --staged",
-    "storybook": "start-storybook -p 6006",
-    "build-storybook": "build-storybook"
+    "prettify": "pretty-quick --staged"
   },
   "browserslist": {
     "production": [
@@ -55,11 +53,6 @@
   },
   "devDependencies": {
     "@babel/core": "^7.12.9",
-    "@storybook/addon-actions": "^6.1.5",
-    "@storybook/addon-essentials": "^6.1.5",
-    "@storybook/addon-links": "^6.1.5",
-    "@storybook/preset-typescript": "^3.0.0",
-    "@storybook/react": "^6.1.5",
     "@types/styled-components": "^5.1.4",
     "@typescript-eslint/eslint-plugin": "^4.6.0",
     "@typescript-eslint/parser": "^4.6.0",
