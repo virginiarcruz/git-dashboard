@@ -1,11 +1,5 @@
 // @ts-nocheck
-import React, {
-  useContext,
-  useEffect,
-  useRef,
-  useCallback,
-  useState,
-} from 'react';
+import React, { useContext, useEffect, useRef, useState } from 'react';
 import { useLazyQuery } from '@apollo/client';
 import useForm from '../hooks/useForm';
 import useGetData from '../hooks/useGetData';
@@ -61,13 +55,11 @@ const PageContainer: React.FC = () => {
 
   useEffect(() => {
     if (data) {
-      console.log('data api', data);
       configValue.data = data;
       configValue.loading = loading;
     }
 
     if (error) {
-      console.log('error', error.errors);
       configValue.error = error;
     }
   }, [loading, data, error, configValue]);
@@ -75,6 +67,7 @@ const PageContainer: React.FC = () => {
   useEffect(() => {
     getAllAuthors();
     getAllLabels();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [data]);
 
   const handleAuthor = (): void => {

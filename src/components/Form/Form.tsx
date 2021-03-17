@@ -6,7 +6,7 @@ import React from 'react';
 import Button from '../Button';
 import Input from '../Input';
 
-import { FormContainer, Error } from './styled';
+import { FormContainer } from './styled';
 
 const Form: React.FC = ({
   formRef,
